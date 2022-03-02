@@ -51,4 +51,23 @@ public record StudentController(
         StudentDTO studentDto = studentMapper.toStudentDTO(student);
         return ResponseEntity.ok(studentDto);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable("id") Long id, @RequestBody StudentDTO studentDTO) {
+        Student student = studentMapper.toStudent(studentDTO);
+        student.setId(id);
+
+        log.info("[DATA UPDATE] - student with email {} updated his information", student.getEmail());
+        studentService.updateStudent(student);
+
+        return ResponseEntity.accepted().body(studentDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<StudentDTO> deleteStudent(@PathVariable("id") Long id) {
+        log.info("[DELETE] - student {} was successfully deleted", id);
+        studentService.deleteStudentById(id);
+
+        return ResponseEntity.accepted().build();
+    }
 }
