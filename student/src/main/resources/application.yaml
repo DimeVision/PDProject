@@ -8,8 +8,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5444/Student
-    username: dimevision
-    password: Admin15913371Fommkaa31
+    username: 
+    password: 
   jpa:
     show-sql: true
     properties:
