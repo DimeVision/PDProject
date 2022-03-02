@@ -27,7 +27,7 @@ public class Group {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "faculty_id")
     @JsonBackReference
     private Faculty facultyId;

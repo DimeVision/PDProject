@@ -34,7 +34,7 @@ public class Student {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     @JsonBackReference
     private Group group;
