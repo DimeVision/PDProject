@@ -51,4 +51,14 @@ public record StudentService(
                 .orElseThrow(() -> new NotFoundException("Student not found"));
     }
 
+    public void deleteStudentById(Long id) {
+        studentRepository.deleteById(id);
+    }
+
+    public void updateStudent(Student student) {
+        Group group = groupRepository.findByName(student.getGroup().getName());
+        student.setGroup(group);
+
+        studentRepository.save(student);
+    }
 }
