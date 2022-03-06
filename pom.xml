@@ -11,6 +11,8 @@
 
     <modules>
         <module>student</module>
+        <module>eureka-server</module>
+        <module>configuration-server</module>
     </modules>
 
     <properties>
@@ -113,4 +115,12 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
 </project>
