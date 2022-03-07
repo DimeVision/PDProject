@@ -19,7 +19,7 @@
 *.tar.gz
 *.rar
 
-/idea
+/.idea
 /configuration-server/target
 /eureka-server/target
 /student/target
