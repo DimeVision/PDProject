@@ -1,0 +1,25 @@
+eureka:
+  instance:
+    instance-id: ${spring.application.name}-${random.uuid}
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: student
+          uri: lb://student
+          predicates:
+            - Path=/api/v1/students
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
