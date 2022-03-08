@@ -1,5 +1,6 @@
 package com.dimevision.student.service;
 
+import com.dimevision.student.exception.NotFoundException;
 import com.dimevision.student.model.entity.Group;
 import com.dimevision.student.model.entity.Student;
 import com.dimevision.student.model.mapper.GroupMapper;
@@ -8,7 +9,6 @@ import com.dimevision.student.repository.GroupRepository;
 import com.dimevision.student.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.webjars.NotFoundException;
 
 import java.util.List;
 
@@ -26,7 +26,11 @@ public record StudentService(
         RestTemplate restTemplate) {
 
     public void createStudent(Student registrationRequest) {
-        Group group = groupRepository.findByName(registrationRequest.getGroup().getName());
+        Group group = groupRepository.findByName(registrationRequest.getGroup().getName())
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Group %s not exists in database", registrationRequest.getName()))
+                );
+
         Student student = Student.builder()
                 .name(registrationRequest.getName())
                 .email(registrationRequest.getEmail())
@@ -48,15 +52,24 @@ public record StudentService(
 
     public Student findStudentById(Long id) {
         return studentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Student not found"));
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Student with id=%d not found", id))
+                );
     }
 
     public void deleteStudentById(Long id) {
-        studentRepository.deleteById(id);
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Student with id=%s not found", id))
+                );
+
+        studentRepository.delete(student);
     }
 
     public void updateStudent(Student student) {
-        Group group = groupRepository.findByName(student.getGroup().getName());
+        Group group = groupRepository.findByName(student.getGroup().getName())
+                .orElseThrow(() ->
+                        new NotFoundException(String.format("Group %s not exists in database", student.getName())));
         student.setGroup(group);
 
         studentRepository.save(student);
