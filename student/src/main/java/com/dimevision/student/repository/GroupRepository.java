@@ -3,6 +3,8 @@ package com.dimevision.student.repository;
 import com.dimevision.student.model.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * @author Dimevision
  * @version 0.1
@@ -10,5 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
-    Group findByName(String name);
+    Optional<Group> findByName(String name);
 }
